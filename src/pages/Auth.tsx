@@ -63,7 +63,7 @@ const Auth = () => {
           <CardDescription className="text-sm leading-relaxed">
   Enter your official university email to access final year projects. <br />
   Format:{" "}
-  <span className="font-mono text-primary bg-primary/10 px-2 py-1 rounded-md">
+  <span className="font-mono font-semibold text-primary bg-primary/10 px-2 py-1 rounded-md">
     YY-52HL001@students.unilorin.edu.ng
   </span>
 </CardDescription>
