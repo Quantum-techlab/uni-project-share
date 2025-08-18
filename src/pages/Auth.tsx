@@ -60,10 +60,14 @@ const Auth = () => {
               <Shield className="h-5 w-5 text-primary" />
               <CardTitle className="text-xl">Student Access Portal</CardTitle>
             </div>
-            <CardDescription className="text-sm leading-relaxed">
-              Enter your official university email to access final year projects. 
-              Format: <span className="font-mono text-primary">YY-52HL001@students.unilorin.edu.ng</span>
-            </CardDescription>
+          <CardDescription className="text-sm leading-relaxed">
+  Enter your official university email to access final year projects. <br />
+  Format:{" "}
+  <span className="font-mono text-primary bg-primary/10 px-2 py-1 rounded-md">
+    YY-52HL001@students.unilorin.edu.ng
+  </span>
+</CardDescription>
+
           </CardHeader>
           
           <CardContent>
