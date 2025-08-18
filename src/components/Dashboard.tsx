@@ -56,10 +56,10 @@ const Dashboard = () => {
               <GraduationCap className="h-8 w-8 text-white hidden" />
               <div>
                 <h1 className="text-xl font-bold text-white">
-                  Department Project Repository
+                  Department  Project Repository
                 </h1>
                 <p className="text-xs text-white/80">
-                  University of Ilorin • Computer Science
+                  University of Ilorin • Information Technology
                 </p>
               </div>
             </div>
