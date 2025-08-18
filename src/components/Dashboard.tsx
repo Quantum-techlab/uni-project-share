@@ -43,7 +43,17 @@ const Dashboard = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <GraduationCap className="h-8 w-8 text-primary-foreground" />
+              <img 
+                src="/public/image.png" 
+                alt="Department Logo" 
+                className="h-10 w-10 object-contain"
+                onError={(e) => {
+                  // Fallback to graduation cap icon if logo fails to load
+                  e.currentTarget.style.display = 'none';
+                  e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                }}
+              />
+              <GraduationCap className="h-8 w-8 text-primary-foreground hidden" />
               <div>
                 <h1 className="text-xl font-bold text-primary-foreground">
                   Department Project Repository

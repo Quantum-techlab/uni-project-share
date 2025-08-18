@@ -32,13 +32,13 @@ export const ProjectCard = ({
   };
 
   return (
-    <Card className="academic-paper hover:shadow-elegant transition-smooth group">
+    <Card className="academic-paper hover:shadow-elegant transition-smooth group border-slate-200 hover:border-primary/20">
       <CardHeader className="space-y-3">
         <div className="flex items-start justify-between gap-2">
           <CardTitle className="text-lg leading-tight group-hover:text-primary transition-smooth">
             {title}
           </CardTitle>
-          <Badge variant="secondary" className="text-xs">
+          <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-700 hover:bg-slate-200">
             {year}
           </Badge>
         </div>

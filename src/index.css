@@ -4,44 +4,44 @@
 
 @layer base {
   :root {
-    /* University of Ilorin inspired color palette */
-    --background: 251 251 251; /* Off white */
-    --foreground: 17 24 39; /* Dark gray */
-    --card: 255 255 255; /* White */
-    --card-foreground: 17 24 39; /* Dark gray */
-    --popover: 255 255 255; /* White */
-    --popover-foreground: 17 24 39; /* Dark gray */
-    --primary: 15 54 130; /* Deep blue - academic */
+    /* Professional Academic Color Palette */
+    --background: 255 255 255; /* Pure white */
+    --foreground: 15 23 42; /* Deep slate */
+    --card: 255 255 255; /* Pure white */
+    --card-foreground: 15 23 42; /* Deep slate */
+    --popover: 255 255 255; /* Pure white */
+    --popover-foreground: 15 23 42; /* Deep slate */
+    --primary: 30 64 175; /* Professional blue */
     --primary-foreground: 255 255 255; /* White */
-    --secondary: 236 240 246; /* Light blue gray */
-    --secondary-foreground: 30 58 138; /* Darker blue */
-    --muted: 243 244 246; /* Light gray */
-    --muted-foreground: 107 114 128; /* Medium gray */
-    --accent: 168 185 247; /* Light blue accent */
-    --accent-foreground: 30 58 138; /* Dark blue */
-    --destructive: 239 68 68; /* Red */
+    --secondary: 248 250 252; /* Very light slate */
+    --secondary-foreground: 51 65 85; /* Medium slate */
+    --muted: 241 245 249; /* Light slate */
+    --muted-foreground: 100 116 139; /* Slate gray */
+    --accent: 239 246 255; /* Very light blue */
+    --accent-foreground: 30 64 175; /* Professional blue */
+    --destructive: 220 38 38; /* Professional red */
     --destructive-foreground: 255 255 255; /* White */
     --border: 226 232 240; /* Light border */
     --input: 226 232 240; /* Input border */
-    --ring: 15 54 130; /* Primary blue for focus */
+    --ring: 30 64 175; /* Professional blue for focus */
     --radius: 0.75rem; /* Rounded corners */
 
     /* Sidebar colors */
-    --sidebar-background: 248 250 252; /* Very light blue */
-    --sidebar-foreground: 17 24 39; /* Dark gray */
-    --sidebar-primary: 15 54 130; /* Primary blue */
+    --sidebar-background: 248 250 252; /* Very light slate */
+    --sidebar-foreground: 15 23 42; /* Deep slate */
+    --sidebar-primary: 30 64 175; /* Professional blue */
     --sidebar-primary-foreground: 255 255 255; /* White */
-    --sidebar-accent: 236 240 246; /* Light blue gray */
-    --sidebar-accent-foreground: 30 58 138; /* Darker blue */
+    --sidebar-accent: 241 245 249; /* Light slate */
+    --sidebar-accent-foreground: 51 65 85; /* Medium slate */
     --sidebar-border: 226 232 240; /* Light border */
-    --sidebar-ring: 15 54 130; /* Primary blue */
+    --sidebar-ring: 30 64 175; /* Professional blue */
 
-    /* University branding gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(210 100% 40%));
+    /* Professional gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(219 84% 50%));
     --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(210 100% 40%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(219 84% 50%) 100%);
     
-    /* Shadows with university colors */
+    /* Professional shadows */
     --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
     --shadow-card: 0 4px 20px -4px hsl(var(--primary) / 0.1);
     --shadow-glow: 0 0 40px hsl(var(--accent) / 0.3);
@@ -51,35 +51,35 @@
   }
 
   .dark {
-    --background: 3 7 18; /* Very dark blue */
+    --background: 2 6 23; /* Very dark slate */
     --foreground: 248 250 252; /* Very light */
-    --card: 15 23 42; /* Dark blue */
+    --card: 15 23 42; /* Dark slate */
     --card-foreground: 248 250 252; /* Very light */
-    --popover: 15 23 42; /* Dark blue */
+    --popover: 15 23 42; /* Dark slate */
     --popover-foreground: 248 250 252; /* Very light */
-    --primary: 59 130 246; /* Bright blue */
+    --primary: 96 165 250; /* Bright professional blue */
     --primary-foreground: 15 23 42; /* Dark */
-    --secondary: 30 41 59; /* Medium dark blue */
+    --secondary: 30 41 59; /* Medium dark slate */
     --secondary-foreground: 248 250 252; /* Very light */
-    --muted: 30 41 59; /* Medium dark blue */
+    --muted: 30 41 59; /* Medium dark slate */
     --muted-foreground: 156 163 175; /* Light gray */
-    --accent: 30 41 59; /* Medium dark blue */
+    --accent: 30 41 59; /* Medium dark slate */
     --accent-foreground: 248 250 252; /* Very light */
-    --destructive: 239 68 68; /* Red */
+    --destructive: 248 113 113; /* Light red for dark mode */
     --destructive-foreground: 248 250 252; /* Very light */
-    --border: 30 41 59; /* Medium dark blue */
-    --input: 30 41 59; /* Medium dark blue */
-    --ring: 59 130 246; /* Bright blue */
+    --border: 30 41 59; /* Medium dark slate */
+    --input: 30 41 59; /* Medium dark slate */
+    --ring: 96 165 250; /* Bright professional blue */
 
     /* Dark sidebar colors */
-    --sidebar-background: 15 23 42; /* Dark blue */
+    --sidebar-background: 15 23 42; /* Dark slate */
     --sidebar-foreground: 248 250 252; /* Very light */
-    --sidebar-primary: 59 130 246; /* Bright blue */
+    --sidebar-primary: 96 165 250; /* Bright professional blue */
     --sidebar-primary-foreground: 15 23 42; /* Dark */
-    --sidebar-accent: 30 41 59; /* Medium dark blue */
+    --sidebar-accent: 30 41 59; /* Medium dark slate */
     --sidebar-accent-foreground: 248 250 252; /* Very light */
-    --sidebar-border: 30 41 59; /* Medium dark blue */
-    --sidebar-ring: 59 130 246; /* Bright blue */
+    --sidebar-border: 30 41 59; /* Medium dark slate */
+    --sidebar-ring: 96 165 250; /* Bright professional blue */
   }
 }
 

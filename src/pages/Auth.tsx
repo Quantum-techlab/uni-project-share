@@ -30,8 +30,18 @@ const Auth = () => {
       <div className="w-full max-w-md space-y-8">
         {/* University Header */}
         <div className="text-center space-y-4">
-          <div className="mx-auto w-16 h-16 university-header rounded-full flex items-center justify-center shadow-glow">
-            <GraduationCap className="h-8 w-8 text-primary-foreground" />
+          <div className="mx-auto w-20 h-20 university-header rounded-full flex items-center justify-center shadow-glow p-2">
+            <img 
+              src="/public/image.png" 
+              alt="Department Logo" 
+              className="h-12 w-12 object-contain"
+              onError={(e) => {
+                // Fallback to graduation cap icon if logo fails to load
+                e.currentTarget.style.display = 'none';
+                e.currentTarget.nextElementSibling?.classList.remove('hidden');
+              }}
+            />
+            <GraduationCap className="h-8 w-8 text-primary-foreground hidden" />
           </div>
           <div>
             <h1 className="text-3xl font-bold text-foreground">

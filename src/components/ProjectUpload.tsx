@@ -125,14 +125,14 @@ export const ProjectUpload = () => {
   };
 
   return (
-    <Card className="academic-paper max-w-4xl mx-auto">
+    <Card className="academic-paper max-w-4xl mx-auto border-slate-200">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5 text-primary" />
           Upload Final Year Project
         </CardTitle>
         <CardDescription>
-          Share your final year project with the department. All fields are required unless marked as optional.
+          Share your final year project with the Computer Science Department. All fields are required unless marked as optional.
         </CardDescription>
       </CardHeader>
       
