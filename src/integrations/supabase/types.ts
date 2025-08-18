@@ -14,7 +14,84 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          admission_year: number
+          created_at: string
+          email: string
+          id: string
+          student_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admission_year: number
+          created_at?: string
+          email: string
+          id?: string
+          student_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admission_year?: number
+          created_at?: string
+          email?: string
+          id?: string
+          student_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      projects: {
+        Row: {
+          abstract: string | null
+          created_at: string
+          description: string
+          file_name: string | null
+          file_size: number | null
+          file_url: string | null
+          id: string
+          keywords: string[] | null
+          supervisor_name: string
+          title: string
+          updated_at: string
+          uploaded_by: string
+          year_of_submission: number
+        }
+        Insert: {
+          abstract?: string | null
+          created_at?: string
+          description: string
+          file_name?: string | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          keywords?: string[] | null
+          supervisor_name: string
+          title: string
+          updated_at?: string
+          uploaded_by: string
+          year_of_submission: number
+        }
+        Update: {
+          abstract?: string | null
+          created_at?: string
+          description?: string
+          file_name?: string | null
+          file_size?: number | null
+          file_url?: string | null
+          id?: string
+          keywords?: string[] | null
+          supervisor_name?: string
+          title?: string
+          updated_at?: string
+          uploaded_by?: string
+          year_of_submission?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
