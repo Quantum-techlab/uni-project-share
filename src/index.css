@@ -2,95 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* University of Ilorin inspired color palette */
+    --background: 251 251 251; /* Off white */
+    --foreground: 17 24 39; /* Dark gray */
+    --card: 255 255 255; /* White */
+    --card-foreground: 17 24 39; /* Dark gray */
+    --popover: 255 255 255; /* White */
+    --popover-foreground: 17 24 39; /* Dark gray */
+    --primary: 15 54 130; /* Deep blue - academic */
+    --primary-foreground: 255 255 255; /* White */
+    --secondary: 236 240 246; /* Light blue gray */
+    --secondary-foreground: 30 58 138; /* Darker blue */
+    --muted: 243 244 246; /* Light gray */
+    --muted-foreground: 107 114 128; /* Medium gray */
+    --accent: 168 185 247; /* Light blue accent */
+    --accent-foreground: 30 58 138; /* Dark blue */
+    --destructive: 239 68 68; /* Red */
+    --destructive-foreground: 255 255 255; /* White */
+    --border: 226 232 240; /* Light border */
+    --input: 226 232 240; /* Input border */
+    --ring: 15 54 130; /* Primary blue for focus */
+    --radius: 0.75rem; /* Rounded corners */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Sidebar colors */
+    --sidebar-background: 248 250 252; /* Very light blue */
+    --sidebar-foreground: 17 24 39; /* Dark gray */
+    --sidebar-primary: 15 54 130; /* Primary blue */
+    --sidebar-primary-foreground: 255 255 255; /* White */
+    --sidebar-accent: 236 240 246; /* Light blue gray */
+    --sidebar-accent-foreground: 30 58 138; /* Darker blue */
+    --sidebar-border: 226 232 240; /* Light border */
+    --sidebar-ring: 15 54 130; /* Primary blue */
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* University branding gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(210 100% 40%));
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(210 100% 40%) 100%);
+    
+    /* Shadows with university colors */
+    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
+    --shadow-card: 0 4px 20px -4px hsl(var(--primary) / 0.1);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.3);
+    
+    /* Animation */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 3 7 18; /* Very dark blue */
+    --foreground: 248 250 252; /* Very light */
+    --card: 15 23 42; /* Dark blue */
+    --card-foreground: 248 250 252; /* Very light */
+    --popover: 15 23 42; /* Dark blue */
+    --popover-foreground: 248 250 252; /* Very light */
+    --primary: 59 130 246; /* Bright blue */
+    --primary-foreground: 15 23 42; /* Dark */
+    --secondary: 30 41 59; /* Medium dark blue */
+    --secondary-foreground: 248 250 252; /* Very light */
+    --muted: 30 41 59; /* Medium dark blue */
+    --muted-foreground: 156 163 175; /* Light gray */
+    --accent: 30 41 59; /* Medium dark blue */
+    --accent-foreground: 248 250 252; /* Very light */
+    --destructive: 239 68 68; /* Red */
+    --destructive-foreground: 248 250 252; /* Very light */
+    --border: 30 41 59; /* Medium dark blue */
+    --input: 30 41 59; /* Medium dark blue */
+    --ring: 59 130 246; /* Bright blue */
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Dark sidebar colors */
+    --sidebar-background: 15 23 42; /* Dark blue */
+    --sidebar-foreground: 248 250 252; /* Very light */
+    --sidebar-primary: 59 130 246; /* Bright blue */
+    --sidebar-primary-foreground: 15 23 42; /* Dark */
+    --sidebar-accent: 30 41 59; /* Medium dark blue */
+    --sidebar-accent-foreground: 248 250 252; /* Very light */
+    --sidebar-border: 30 41 59; /* Medium dark blue */
+    --sidebar-ring: 59 130 246; /* Bright blue */
   }
 }
 
@@ -98,8 +87,63 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+  
+  /* Academic typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+  
+  h1 {
+    @apply text-4xl lg:text-5xl;
+  }
+  
+  h2 {
+    @apply text-3xl lg:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl lg:text-3xl;
+  }
+  
+  /* University branding utilities */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-accent {
+    background: var(--gradient-accent);
+  }
+  
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+  
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+  
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  /* Academic paper-like styling */
+  .academic-paper {
+    @apply bg-card border border-border rounded-lg p-6 shadow-card;
+  }
+  
+  /* University header styling */
+  .university-header {
+    @apply gradient-hero text-primary-foreground;
   }
 }
