@@ -37,9 +37,9 @@
     --sidebar-ring: 30 64 175; /* Professional blue */
 
     /* Professional gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(219 84% 50%));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--primary)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(219 84% 50%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(248 250 252), hsl(241 245 249));
+    --gradient-accent: linear-gradient(135deg, hsl(248 250 252), hsl(241 245 249));
+    --gradient-hero: linear-gradient(135deg, hsl(30 64 175) 0%, hsl(37 99% 60%) 100%);
     
     /* Professional shadows */
     --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.15);
@@ -144,6 +144,6 @@
   
   /* University header styling */
   .university-header {
-    @apply gradient-hero text-primary-foreground;
+    @apply bg-primary text-primary-foreground;
   }
 }

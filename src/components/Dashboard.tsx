@@ -37,9 +37,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-accent/10">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="university-header border-b border-primary/20 shadow-card">
+      <header className="bg-primary text-white border-b border-primary/20 shadow-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
@@ -53,19 +53,19 @@ const Dashboard = () => {
                   e.currentTarget.nextElementSibling?.classList.remove('hidden');
                 }}
               />
-              <GraduationCap className="h-8 w-8 text-primary-foreground hidden" />
+              <GraduationCap className="h-8 w-8 text-white hidden" />
               <div>
-                <h1 className="text-xl font-bold text-primary-foreground">
+                <h1 className="text-xl font-bold text-white">
                   Department Project Repository
                 </h1>
-                <p className="text-xs text-primary-foreground/80">
+                <p className="text-xs text-white/80">
                   University of Ilorin • Computer Science
                 </p>
               </div>
             </div>
             
             <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-primary-foreground/90">
+              <div className="flex items-center gap-2 text-white/90">
                 <User className="h-4 w-4" />
                 <span className="text-sm">{user.email}</span>
               </div>
@@ -73,7 +73,7 @@ const Dashboard = () => {
                 variant="outline" 
                 size="sm" 
                 onClick={handleSignOut}
-                className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10"
+                className="border-white/20 text-white hover:bg-white/10 hover:text-white"
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Logout
@@ -116,7 +116,7 @@ const Dashboard = () => {
         {activeTab === 'browse' && (
           <div className="space-y-6">
             {/* Filters */}
-            <Card className="academic-paper">
+            <Card className="bg-white border border-slate-200 shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Filter className="h-5 w-5 text-primary" />

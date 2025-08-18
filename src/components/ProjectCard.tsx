@@ -32,31 +32,31 @@ export const ProjectCard = ({
   };
 
   return (
-    <Card className="academic-paper hover:shadow-elegant transition-smooth group border-slate-200 hover:border-primary/20">
+    <Card className="bg-white border border-slate-200 shadow-sm hover:shadow-md transition-smooth group hover:border-primary/20">
       <CardHeader className="space-y-3">
         <div className="flex items-start justify-between gap-2">
           <CardTitle className="text-lg leading-tight group-hover:text-primary transition-smooth">
             {title}
           </CardTitle>
-          <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-700 hover:bg-slate-200">
+          <Badge variant="secondary" className="text-xs bg-slate-100 text-slate-700">
             {year}
           </Badge>
         </div>
         
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-sm text-slate-600">
           <User className="h-4 w-4" />
           <span>{supervisor}</span>
         </div>
       </CardHeader>
       
       <CardContent className="space-y-4">
-        <CardDescription className="text-sm leading-relaxed">
+        <CardDescription className="text-sm leading-relaxed text-slate-600">
           {truncatedAbstract}
         </CardDescription>
         
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Tag className="h-4 w-4 text-muted-foreground" />
+            <Tag className="h-4 w-4 text-slate-400" />
             <div className="flex flex-wrap gap-1">
               {keywords.slice(0, 3).map((keyword, index) => (
                 <Badge key={index} variant="outline" className="text-xs">
@@ -71,7 +71,7 @@ export const ProjectCard = ({
             </div>
           </div>
           
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <div className="flex items-center justify-between text-xs text-slate-500">
             <div className="flex items-center gap-1">
               <Calendar className="h-3 w-3" />
               <span>{new Date(uploadDate).toLocaleDateString()}</span>

@@ -125,7 +125,7 @@ export const ProjectUpload = () => {
   };
 
   return (
-    <Card className="academic-paper max-w-4xl mx-auto border-slate-200">
+    <Card className="bg-white border border-slate-200 shadow-sm max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Upload className="h-5 w-5 text-primary" />
@@ -174,7 +174,7 @@ export const ProjectUpload = () => {
               required
             />
             {emailYear && (
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-slate-500">
                 Suggested year based on your email: {suggestedYear}
               </p>
             )}
@@ -246,7 +246,7 @@ export const ProjectUpload = () => {
               
               {!file ? (
                 <div className="space-y-2">
-                  <FileText className="h-12 w-12 text-muted-foreground mx-auto" />
+                  <FileText className="h-12 w-12 text-slate-400 mx-auto" />
                   <div>
                     <Button 
                       type="button" 
@@ -256,7 +256,7 @@ export const ProjectUpload = () => {
                       Choose File
                     </Button>
                   </div>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-slate-500">
                     PDF, DOC, or DOCX files only (max 20MB)
                   </p>
                 </div>
@@ -264,7 +264,7 @@ export const ProjectUpload = () => {
                 <div className="space-y-2">
                   <FileText className="h-12 w-12 text-primary mx-auto" />
                   <p className="font-medium">{file.name}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-slate-500">
                     {(file.size / (1024 * 1024)).toFixed(2)} MB
                   </p>
                   <Button 
@@ -280,7 +280,7 @@ export const ProjectUpload = () => {
             </div>
           </div>
 
-          <div className="pt-6 border-t border-border">
+          <div className="pt-6 border-t border-slate-200">
             <Button 
               type="submit" 
               disabled={isLoading || !file || !formData.title || !formData.supervisor}
@@ -288,7 +288,7 @@ export const ProjectUpload = () => {
             >
               {isLoading ? (
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   Uploading project...
                 </div>
               ) : (

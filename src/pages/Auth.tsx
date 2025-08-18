@@ -26,11 +26,11 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-accent/10 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-100 p-4">
       <div className="w-full max-w-md space-y-8">
         {/* University Header */}
         <div className="text-center space-y-4">
-          <div className="mx-auto w-20 h-20 university-header rounded-full flex items-center justify-center shadow-glow p-2">
+          <div className="mx-auto w-20 h-20 bg-primary rounded-full flex items-center justify-center shadow-lg p-2">
             <img 
               src="/public/image.png" 
               alt="Department Logo" 
@@ -41,20 +41,20 @@ const Auth = () => {
                 e.currentTarget.nextElementSibling?.classList.remove('hidden');
               }}
             />
-            <GraduationCap className="h-8 w-8 text-primary-foreground hidden" />
+            <GraduationCap className="h-8 w-8 text-white hidden" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-foreground">
+            <h1 className="text-3xl font-bold text-slate-900">
               Department Project Repository
             </h1>
-            <p className="text-muted-foreground mt-2">
+            <p className="text-slate-600 mt-2">
               University of Ilorin • Computer Science Department
             </p>
           </div>
         </div>
 
         {/* Login Card */}
-        <Card className="academic-paper border-2 border-primary/10">
+        <Card className="bg-white border-2 border-slate-200 shadow-lg">
           <CardHeader className="space-y-4">
             <div className="flex items-center gap-3">
               <Shield className="h-5 w-5 text-primary" />
@@ -73,7 +73,7 @@ const Auth = () => {
                   University Email Address
                 </Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                  <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                   <Input
                     id="email"
                     type="email"
@@ -89,11 +89,11 @@ const Auth = () => {
               <Button 
                 type="submit" 
                 disabled={isLoading || !email} 
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-card transition-smooth"
+                className="w-full bg-primary hover:bg-primary/90 text-white shadow-sm transition-smooth"
               >
                 {isLoading ? (
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     Sending verification code...
                   </div>
                 ) : (
@@ -103,11 +103,11 @@ const Auth = () => {
             </form>
 
             {/* Security Notice */}
-            <div className="mt-6 p-4 bg-accent/20 rounded-lg border border-accent/30">
+            <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
               <div className="flex items-start gap-3">
                 <Shield className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <div className="text-xs text-muted-foreground leading-relaxed">
-                  <p className="font-medium text-foreground mb-1">Security Notice</p>
+                <div className="text-xs text-slate-600 leading-relaxed">
+                  <p className="font-medium text-slate-900 mb-1">Security Notice</p>
                   We'll send a one-time verification code to your email. 
                   Only official department students with valid email addresses can access this system.
                 </div>
@@ -117,7 +117,7 @@ const Auth = () => {
         </Card>
 
         {/* Footer */}
-        <p className="text-center text-xs text-muted-foreground">
+        <p className="text-center text-xs text-slate-500">
           © 2024 University of Ilorin, Computer Science Department
         </p>
       </div>
