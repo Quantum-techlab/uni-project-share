@@ -118,7 +118,7 @@ const Auth = () => {
 
         {/* Footer */}
         <p className="text-center text-xs text-slate-500">
-          © 2024 University of Ilorin, Computer Science Department
+          © 2025 University of Ilorin, Information Technology Department
         </p>
       </div>
     </div>
