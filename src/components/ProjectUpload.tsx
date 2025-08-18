@@ -132,7 +132,7 @@ export const ProjectUpload = () => {
           Upload Final Year Project
         </CardTitle>
         <CardDescription>
-          Share your final year project with the Computer Science Department. All fields are required unless marked as optional.
+          Share your final year project with the Information Technology Department. All fields are required unless marked as optional.
         </CardDescription>
       </CardHeader>
       
