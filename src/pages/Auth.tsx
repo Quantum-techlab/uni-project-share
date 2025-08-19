@@ -38,7 +38,7 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-secondary p-4">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
       <div className="w-full max-w-md space-y-8">
         {/* University Header */}
         <div className="text-center space-y-4">
@@ -55,17 +55,17 @@ const Auth = () => {
             <GraduationCap className="h-8 w-8 text-white hidden" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-foreground">
+            <h1 className="text-3xl font-bold text-slate-800">
               ITSA Project Vault
             </h1>
-            <p className="text-muted-foreground mt-2 font-medium">
+            <p className="text-slate-600 mt-2 font-medium">
               University of Ilorin, Information Technology Department Repository
             </p>
           </div>
         </div>
 
         {/* Login Card */}
-        <Card className="bg-card border-2 border-border shadow-card">
+        <Card className="bg-white border-2 border-slate-200 shadow-lg">
           <CardHeader className="space-y-4">
             <div className="flex items-center gap-3">
               {step === 'email' ? (
@@ -73,29 +73,29 @@ const Auth = () => {
               ) : (
                 <KeyRound className="h-5 w-5 text-primary" />
               )}
-              <CardTitle className="text-xl text-card-foreground">
+              <CardTitle className="text-xl text-slate-800">
                 {step === 'email' ? 'Student Access Portal' : 'Enter Verification Code'}
               </CardTitle>
             </div>
             <CardDescription className="text-sm leading-relaxed">
               {step === 'email' ? (
                 <div className="space-y-3">
-                  <p className="text-foreground font-semibold text-base">
+                  <p className="text-slate-700 font-semibold text-base">
                     Enter your official university email to access final year projects.
                   </p>
                   <div className="flex flex-col gap-2">
-                    <span className="text-sm text-muted-foreground font-semibold">Email Format:</span>
-                    <span className="font-mono text-sm font-bold text-primary bg-primary/15 px-4 py-3 rounded-lg border border-primary/30">
+                    <span className="text-sm text-slate-600 font-semibold">Email Format:</span>
+                    <span className="font-mono text-sm font-bold text-blue-700 bg-blue-50 px-4 py-3 rounded-lg border border-blue-200">
                       YY-52HL001@students.unilorin.edu.ng
                     </span>
                   </div>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  <p className="text-foreground font-semibold">
+                  <p className="text-slate-700 font-semibold">
                     We've sent a verification code to your email.
                   </p>
-                  <p className="font-mono text-sm font-medium text-primary bg-primary/10 px-3 py-2 rounded-md break-all">
+                  <p className="font-mono text-sm font-medium text-blue-700 bg-blue-50 px-3 py-2 rounded-md break-all border border-blue-200">
                     {email}
                   </p>
                 </div>
@@ -107,18 +107,18 @@ const Auth = () => {
             {step === 'email' ? (
               <form onSubmit={handleEmailSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm font-semibold text-foreground">
+                  <Label htmlFor="email" className="text-sm font-semibold text-slate-700">
                     University Email Address
                   </Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-500" />
                     <Input
                       id="email"
                       type="email"
                       placeholder="21-52HL001@students.unilorin.edu.ng"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="pl-10 transition-smooth focus:ring-2 focus:ring-primary/20 placeholder:text-muted-foreground placeholder:font-semibold text-foreground bg-background border-border"
+                      className="pl-10 transition-smooth focus:ring-2 focus:ring-blue-200 placeholder:text-slate-500 placeholder:font-medium text-slate-800 bg-white border-slate-300"
                       required
                     />
                   </div>
