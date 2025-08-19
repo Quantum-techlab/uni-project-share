@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { GraduationCap, Mail, Shield } from 'lucide-react';
+import { GraduationCap, Mail, Shield, CheckCircle } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 
 const Auth = () => {
@@ -21,7 +21,10 @@ const Auth = () => {
     e.preventDefault();
     setIsLoading(true);
     
-    await signInWithOTP(email);
+    const result = await signInWithOTP(email);
+    if (!result.error) {
+      setEmailSent(true);
+    }
     setIsLoading(false);
   };
 
@@ -61,16 +64,66 @@ const Auth = () => {
               <CardTitle className="text-xl">Student Access Portal</CardTitle>
             </div>
           <CardDescription className="text-sm leading-relaxed">
-  Enter your official university email to access final year projects. <br />
-  Format:{" "}
-  <span className="font-mono font-semibold text-primary bg-primary/10 px-2 py-1 rounded-md">
-    YY-52HL001@students.unilorin.edu.ng
-  </span>
-</CardDescription>
+              <div className="space-y-2">
+                <p>Enter your official university email to access final year projects.</p>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xs text-slate-500">Format:</span>
+                  <span className="font-mono text-sm font-semibold text-primary bg-primary/10 px-3 py-2 rounded-md border border-primary/20">
+                    YY-52HL001@students.unilorin.edu.ng
+                  </span>
+                </div>
+              </div>
+            </CardDescription>
 
           </CardHeader>
           
           <CardContent>
+            {emailSent ? (
+              <div className="space-y-6">
+                <div className="text-center space-y-4">
+                  <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+                    <CheckCircle className="h-8 w-8 text-green-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-slate-900">Check Your Email</h3>
+                    <p className="text-sm text-slate-600 mt-2">
+                      We've sent a verification code to:
+                    </p>
+                    <p className="font-mono text-sm font-medium text-primary bg-primary/10 px-3 py-2 rounded-md mt-2 break-all">
+                      {email}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <div className="flex items-start gap-3">
+                      <Mail className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                      <div className="text-sm text-blue-800">
+                        <p className="font-medium mb-1">Next Steps:</p>
+                        <ol className="list-decimal list-inside space-y-1 text-xs">
+                          <li>Check your university email inbox</li>
+                          <li>Look for an email from the ITSA Project Vault</li>
+                          <li>Click the verification link in the email</li>
+                          <li>You'll be automatically logged in</li>
+                        </ol>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <Button 
+                    onClick={() => {
+                      setEmailSent(false);
+                      setEmail('');
+                    }}
+                    variant="outline" 
+                    className="w-full"
+                  >
+                    Use Different Email
+                  </Button>
+                </div>
+              </div>
+            ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-sm font-medium">
@@ -81,10 +134,10 @@ const Auth = () => {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="21-52HL001@students.unilorin.edu.ng"
+                    placeholder="Enter your university email (e.g., 21-52HL001@students.unilorin.edu.ng)"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="pl-10 transition-smooth focus:ring-2 focus:ring-primary/20"
+                    className="pl-10 transition-smooth focus:ring-2 focus:ring-primary/20 placeholder:text-slate-400"
                     required
                   />
                 </div>
@@ -117,6 +170,7 @@ const Auth = () => {
                 </div>
               </div>
             </div>
+            )}
           </CardContent>
         </Card>
 
