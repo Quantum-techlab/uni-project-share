@@ -111,12 +111,10 @@ export const useAuth = () => {
       return { error: { message: validation.error } };
     }
 
-    const redirectUrl = `${window.location.origin}/`;
-    
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: redirectUrl
+        shouldCreateUser: true,
       }
     });
 
@@ -126,14 +124,45 @@ export const useAuth = () => {
         description: error.message,
         variant: "destructive",
       });
-    } else {
-      toast({
-        title: "Check your email",
-        description: "We've sent you a verification code to login.",
-      });
     }
 
     return { error };
+  };
+
+  const verifyOTP = async (email: string, token: string) => {
+    try {
+      const { data, error } = await supabase.auth.verifyOtp({
+        email,
+        token,
+        type: 'email'
+      });
+
+      if (error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          variant: "destructive",
+        });
+        return { error };
+      }
+
+      toast({
+        title: "Success",
+        description: "Login successful! Welcome to ITSA Project Vault.",
+      });
+
+      return { error: null };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to verify OTP';
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      return { 
+        error: error instanceof Error ? error : new Error('Failed to verify OTP') 
+      };
+    }
   };
 
   const signOut = async () => {
@@ -153,6 +182,7 @@ export const useAuth = () => {
     session,
     loading,
     signInWithOTP,
+    verifyOTP,
     signOut,
     validateUniversityEmail
   };
