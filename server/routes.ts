@@ -10,6 +10,25 @@ const emailSchema = z.string().regex(
   "Email must follow the format: YY-52HL001@students.unilorin.edu.ng"
 );
 
+// Request validation schemas
+const sendOtpSchema = z.object({
+  email: emailSchema
+});
+
+const verifyOtpSchema = z.object({
+  email: emailSchema,
+  token: z.string().length(6, "OTP must be 6 digits"),
+});
+
+const createProjectSchema = z.object({
+  title: z.string().min(1, "Title is required"),
+  supervisor_name: z.string().min(1, "Supervisor name is required"),
+  year_of_submission: z.number().min(2015).max(new Date().getFullYear() + 1),
+  description: z.string().min(1, "Description is required"),
+  abstract: z.string().optional(),
+  keywords: z.string().optional(),
+});
+
 // Utility functions
 function validateUniversityEmail(email: string) {
   const pattern = /^(\d{2})-52HL(\d{3})@students\.unilorin\.edu\.ng$/;
@@ -58,7 +77,27 @@ function generateOtpCode(): string {
 async function sendOtpEmail(email: string, code: string): Promise<boolean> {
   console.log(`[EMAIL] Sending OTP ${code} to ${email}`);
   // TODO: Integrate with real email service like SendGrid, AWS SES, etc.
-  // For development, we'll return the OTP code to display in the UI
+  return true;
+}
+
+// Rate limiting store (in production, use Redis)
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(email: string, maxAttempts = 5, windowMs = 15 * 60 * 1000): boolean {
+  const now = Date.now();
+  const key = `otp:${email}`;
+  const record = rateLimitStore.get(key);
+
+  if (!record || now > record.resetTime) {
+    rateLimitStore.set(key, { count: 1, resetTime: now + windowMs });
+    return true;
+  }
+
+  if (record.count >= maxAttempts) {
+    return false;
+  }
+
+  record.count++;
   return true;
 }
 
@@ -66,12 +105,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Authentication routes
   app.post("/api/auth/send-otp", async (req, res) => {
     try {
-      const { email } = req.body;
-      
+      // Validate request body
+      const validation = sendOtpSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({ 
+          error: validation.error.issues[0].message 
+        });
+      }
+
+      const { email } = validation.data;
+
+      // Rate limiting
+      if (!checkRateLimit(email)) {
+        return res.status(429).json({ 
+          error: "Too many OTP requests. Please try again in 15 minutes.",
+          retryAfter: 15 * 60
+        });
+      }
+
       // Validate email format
-      const validation = validateUniversityEmail(email);
-      if (!validation.valid) {
-        return res.status(400).json({ error: validation.error });
+      const emailValidation = validateUniversityEmail(email);
+      if (!emailValidation.valid) {
+        return res.status(400).json({ error: emailValidation.error });
       }
 
       // Check for recent OTP requests (allow new requests after 1 minute)
@@ -103,7 +158,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         used: false
       });
 
-      // Send email (mock implementation)
+      // Send email
       const emailSent = await sendOtpEmail(email, code);
       if (!emailSent) {
         return res.status(500).json({ error: "Failed to send email" });
@@ -122,17 +177,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/auth/verify-otp", async (req, res) => {
     try {
-      const { email, token } = req.body;
-      const code = token; // Handle both parameter names
+      // Validate request body
+      const validation = verifyOtpSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({ 
+          error: validation.error.issues[0].message 
+        });
+      }
+
+      const { email, token } = validation.data;
       
       // Validate email format
-      const validation = validateUniversityEmail(email);
-      if (!validation.valid) {
-        return res.status(400).json({ error: validation.error });
+      const emailValidation = validateUniversityEmail(email);
+      if (!emailValidation.valid) {
+        return res.status(400).json({ error: emailValidation.error });
       }
 
       // Verify OTP
-      const otpRecord = await storage.verifyOtpCode(email, code);
+      const otpRecord = await storage.verifyOtpCode(email, token);
       if (!otpRecord) {
         return res.status(400).json({ error: "Invalid or expired OTP code" });
       }
@@ -142,13 +204,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!profile) {
         profile = await storage.createProfile({
           email,
-          admission_year: validation.admissionYear!,
-          student_id: validation.studentId!
+          admission_year: emailValidation.admissionYear!,
+          student_id: emailValidation.studentId!
         });
       }
 
-      // Set session (simple implementation)
-      req.session = req.session || {};
+      // Set session
+      if (!req.session) {
+        return res.status(500).json({ error: "Session not initialized" });
+      }
+      
       req.session.userId = profile.id;
       req.session.userEmail = profile.email;
 
@@ -168,11 +233,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.post("/api/auth/logout", (req, res) => {
-    req.session?.destroy((err) => {
+    if (!req.session) {
+      return res.status(400).json({ error: "No active session" });
+    }
+
+    req.session.destroy((err) => {
       if (err) {
         console.error('Error destroying session:', err);
         return res.status(500).json({ error: "Failed to logout" });
       }
+      res.clearCookie('connect.sid'); // Clear the session cookie
       res.json({ message: "Logged out successfully" });
     });
   });
@@ -224,27 +294,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ error: "Not authenticated" });
       }
 
-      const { title, supervisor_name, year_of_submission, description, abstract, keywords } = req.body;
-      
-      // Basic validation
-      if (!title || !supervisor_name || !year_of_submission || !description) {
-        return res.status(400).json({ error: "Missing required fields" });
+      // Validate request body
+      const validation = createProjectSchema.safeParse(req.body);
+      if (!validation.success) {
+        return res.status(400).json({ 
+          error: validation.error.issues[0].message 
+        });
       }
 
+      const data = validation.data;
+
       const project = await storage.createProject({
-        title,
-        supervisor_name,
-        year_of_submission,
-        description,
-        abstract,
-        keywords,
+        ...data,
         uploaded_by: userId,
         file_url: null, // TODO: Handle file upload
         file_name: null,
         file_size: null
       });
 
-      res.json(project);
+      res.status(201).json(project);
     } catch (error) {
       console.error('Error creating project:', error);
       res.status(500).json({ error: "Internal server error" });
@@ -266,8 +334,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Health check endpoint
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok", timestamp: new Date().toISOString() });
+  });
+
   // Cleanup expired OTPs periodically
-  setInterval(async () => {
+  const cleanupInterval = setInterval(async () => {
     try {
       await storage.cleanupExpiredOtps();
     } catch (error) {
@@ -276,5 +349,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   }, 5 * 60 * 1000); // Every 5 minutes
 
   const httpServer = createServer(app);
+
+  // Cleanup interval on server close
+  httpServer.on('close', () => {
+    clearInterval(cleanupInterval);
+  });
+
   return httpServer;
 }
