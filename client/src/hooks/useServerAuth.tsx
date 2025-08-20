@@ -101,12 +101,29 @@ export const useServerAuth = () => {
       const data = await response.json();
       
       if (!response.ok) {
-        toast({
-          title: "Error",
-          description: data.error || "Failed to send OTP",
-          variant: "destructive",
-        });
+        if (response.status === 429) {
+          toast({
+            title: "Rate Limited",
+            description: data.error || "Please wait before requesting a new OTP",
+            variant: "destructive",
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: data.error || "Failed to send OTP",
+            variant: "destructive",
+          });
+        }
         return { error: { message: data.error || "Failed to send OTP" } };
+      }
+
+      // Show development OTP in a toast if available
+      if (data.developmentOtp) {
+        toast({
+          title: "Development OTP",
+          description: `Your OTP code is: ${data.developmentOtp}`,
+          duration: 10000, // 10 seconds
+        });
       }
 
       return { error: null };

@@ -19,6 +19,7 @@ export interface IStorage {
   // OTP operations
   createOtpCode(otpData: InsertOtpCode): Promise<OtpCode>;
   verifyOtpCode(email: string, code: string): Promise<OtpCode | undefined>;
+  getRecentOtpCodes(email: string, since: Date): Promise<OtpCode[]>;
   cleanupExpiredOtps(): Promise<void>;
 }
 
@@ -92,6 +93,17 @@ export class DatabaseStorage implements IStorage {
     }
     
     return result[0];
+  }
+
+  async getRecentOtpCodes(email: string, since: Date): Promise<OtpCode[]> {
+    return await db.select().from(otpCodes)
+      .where(
+        and(
+          eq(otpCodes.email, email),
+          gt(otpCodes.created_at, since)
+        )
+      )
+      .orderBy(otpCodes.created_at);
   }
 
   async cleanupExpiredOtps(): Promise<void> {

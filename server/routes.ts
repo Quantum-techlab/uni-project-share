@@ -58,6 +58,7 @@ function generateOtpCode(): string {
 async function sendOtpEmail(email: string, code: string): Promise<boolean> {
   console.log(`[EMAIL] Sending OTP ${code} to ${email}`);
   // TODO: Integrate with real email service like SendGrid, AWS SES, etc.
+  // For development, we'll return the OTP code to display in the UI
   return true;
 }
 
@@ -71,6 +72,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validation = validateUniversityEmail(email);
       if (!validation.valid) {
         return res.status(400).json({ error: validation.error });
+      }
+
+      // Check for recent OTP requests (allow new requests after 1 minute)
+      const oneMinuteAgo = new Date(Date.now() - 60 * 1000);
+      const recentOtps = await storage.getRecentOtpCodes(email, oneMinuteAgo);
+      
+      if (recentOtps.length > 0) {
+        const lastOtp = recentOtps[0];
+        const timeSinceLastOtp = Date.now() - lastOtp.created_at.getTime();
+        const secondsRemaining = Math.ceil((60 * 1000 - timeSinceLastOtp) / 1000);
+        
+        if (secondsRemaining > 0) {
+          return res.status(429).json({ 
+            error: `Please wait ${secondsRemaining} seconds before requesting a new OTP`,
+            retryAfter: secondsRemaining
+          });
+        }
       }
 
       // Generate OTP code
@@ -91,7 +109,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(500).json({ error: "Failed to send email" });
       }
 
-      res.json({ message: "OTP sent successfully" });
+      // For development, include the OTP in the response
+      res.json({ 
+        message: "OTP sent successfully",
+        ...(process.env.NODE_ENV === 'development' && { developmentOtp: code })
+      });
     } catch (error) {
       console.error('Error sending OTP:', error);
       res.status(500).json({ error: "Internal server error" });
