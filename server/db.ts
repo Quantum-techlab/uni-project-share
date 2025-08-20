@@ -5,14 +5,21 @@ import * as schema from "@shared/schema";
 
 neonConfig.webSocketConstructor = ws;
 
-// For development, use a fallback or disable database operations
-const databaseUrl = process.env.SUPABASE_DB_URL || process.env.DATABASE_URL || 
-  "postgresql://postgres:password@localhost:54322/postgres";
+const databaseUrl = process.env.SUPABASE_DB_URL || process.env.DATABASE_URL;
 
-// In development without proper DB URL, we'll create a mock connection
-if (!process.env.SUPABASE_DB_URL && !process.env.DATABASE_URL) {
-  console.warn("Warning: No database URL configured. Using fallback for development.");
+// Better error handling for missing database URL
+if (!databaseUrl) {
+  console.error("ERROR: No database URL configured. Please set SUPABASE_DB_URL or DATABASE_URL environment variable.");
+  process.exit(1);
 }
 
 export const pool = new Pool({ connectionString: databaseUrl });
 export const db = drizzle({ client: pool, schema });
+
+// Test database connection on startup
+pool.connect().then(() => {
+  console.log("✅ Database connected successfully");
+}).catch((error) => {
+  console.error("❌ Database connection failed:", error);
+  process.exit(1);
+});
