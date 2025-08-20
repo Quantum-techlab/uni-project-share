@@ -17,7 +17,7 @@ import {
   Calendar,
   UserCheck
 } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { useServerAuth as useAuth } from '@/hooks/useServerAuth';
 import { ProjectCard } from '@/components/ProjectCard';
 import { ProjectUpload } from '@/components/ProjectUpload';
 

@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Upload, X, FileText, Plus } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { useServerAuth as useAuth } from '@/hooks/useServerAuth';
 import { toast } from '@/hooks/use-toast';
 
 export const ProjectUpload = () => {

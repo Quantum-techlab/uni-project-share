@@ -1,62 +1,39 @@
 import { useState, useEffect } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 
-export const useAuth = () => {
+interface User {
+  id: string;
+  email: string;
+  admission_year: number;
+  student_id: string;
+}
+
+export const useServerAuth = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Set up auth state listener first
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        if (event === 'SIGNED_IN') {
-          // Create profile if it doesn't exist
-          setTimeout(() => {
-            createProfile(session?.user);
-          }, 0);
-        }
-        
-        setLoading(false);
-      }
-    );
-
-    // Then check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    // Check if user is already authenticated
+    checkAuthStatus();
   }, []);
 
-  const createProfile = async (user: User | undefined) => {
-    if (!user?.email) return;
-
-    const emailValidation = validateUniversityEmail(user.email);
-    if (!emailValidation.valid) return;
-
+  const checkAuthStatus = async () => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .insert({
-          user_id: user.id,
-          email: user.email,
-          admission_year: emailValidation.admissionYear!,
-          student_id: emailValidation.studentId!,
-        });
-
-      if (error && error.code !== '23505') { // Ignore duplicate key error
-        console.error('Error creating profile:', error);
+      const response = await fetch('/api/auth/profile', {
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+      } else {
+        setUser(null);
       }
     } catch (error) {
-      console.error('Error creating profile:', error);
+      console.error('Error checking auth status:', error);
+      setUser(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -111,41 +88,63 @@ export const useAuth = () => {
       return { error: { message: validation.error } };
     }
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        shouldCreateUser: true,
-      }
-    });
-
-    if (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
-
-    return { error };
-  };
-
-  const verifyOTP = async (email: string, token: string) => {
     try {
-      const { data, error } = await supabase.auth.verifyOtp({
-        email,
-        token,
-        type: 'email'
+      const response = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+        credentials: 'include'
       });
 
-      if (error) {
+      const data = await response.json();
+      
+      if (!response.ok) {
         toast({
           title: "Error",
-          description: error.message,
+          description: data.error || "Failed to send OTP",
           variant: "destructive",
         });
-        return { error };
+        return { error: { message: data.error || "Failed to send OTP" } };
       }
 
+      return { error: null };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Network error";
+      toast({
+        title: "Error",
+        description: errorMessage,
+        variant: "destructive",
+      });
+      return { error: { message: errorMessage } };
+    }
+  };
+
+  const verifyOTP = async (email: string, code: string) => {
+    try {
+      const response = await fetch('/api/auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, token: code }),
+        credentials: 'include'
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: data.error || "Failed to verify OTP",
+          variant: "destructive",
+        });
+        return { error: { message: data.error || "Failed to verify OTP" } };
+      }
+
+      setUser(data.user);
+      
       toast({
         title: "Success",
         description: "Login successful! Welcome to ITSA Project Vault.",
@@ -166,20 +165,37 @@ export const useAuth = () => {
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      
+      if (response.ok) {
+        setUser(null);
+        toast({
+          title: "Logged out",
+          description: "You have been successfully logged out.",
+        });
+      } else {
+        throw new Error('Logout failed');
+      }
+      
+      return { error: null };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Logout failed";
       toast({
         title: "Error",
-        description: error.message,
+        description: errorMessage,
         variant: "destructive",
       });
+      return { error: { message: errorMessage } };
     }
-    return { error };
   };
 
   return {
     user,
-    session,
+    session: user ? { user } : null,
     loading,
     signInWithOTP,
     verifyOTP,

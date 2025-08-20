@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { GraduationCap, Mail, Shield, CheckCircle, KeyRound } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
+import { useServerAuth as useAuth } from '@/hooks/useServerAuth';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
