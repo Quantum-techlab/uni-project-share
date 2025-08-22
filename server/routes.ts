@@ -306,6 +306,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const project = await storage.createProject({
         ...data,
+        keywords: data.keywords ? data.keywords.split(',').map(k => k.trim()) : null,
         uploaded_by: userId,
         file_url: null, // TODO: Handle file upload
         file_name: null,

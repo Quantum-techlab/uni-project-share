@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Session configuration
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key-change-in-production',
+  secret: process.env.SESSION_SECRET || 'unilorin-project-repository-secret-key',
   resave: false,
   saveUninitialized: false,
   cookie: {

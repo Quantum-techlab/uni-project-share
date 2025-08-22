@@ -108,7 +108,7 @@ export class DatabaseStorage implements IStorage {
   async deleteProject(id: string): Promise<boolean> {
     try {
       const result = await db.delete(projects).where(eq(projects.id, id));
-      return (result.rowCount ?? 0) > 0;
+      return result.length > 0;
     } catch (error) {
       console.error('Error deleting project:', error);
       throw new Error('Failed to delete project');
@@ -181,7 +181,7 @@ export class DatabaseStorage implements IStorage {
           lt(otpCodes.expires_at, new Date())
         )
       );
-      const deletedCount = result.rowCount ?? 0;
+      const deletedCount = result.length;
       if (deletedCount > 0) {
         console.log(`Cleaned up ${deletedCount} expired OTP codes`);
       }
