@@ -5,6 +5,9 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 [nix]
 channel = "stable-24_05"
 
+[env]
+DATABASE_URL = "$POSTGRES_URL"
+
 [deployment]
 deploymentTarget = "autoscale"
 build = ["npm", "run", "build"]
