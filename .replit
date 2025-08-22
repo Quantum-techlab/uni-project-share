@@ -1,4 +1,4 @@
-modules = ["nodejs-20", "web", "postgresql-16"]
+modules = ["nodejs-20", "web"]
 run = "npm run dev"
 hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
@@ -6,7 +6,9 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 channel = "stable-24_05"
 
 [env]
-DATABASE_URL = "$POSTGRES_URL"
+SUPABASE_URL = "your-supabase-project-url"
+SUPABASE_ANON_KEY = "your-supabase-anon-key"
+SUPABASE_DB_URL = "your-supabase-database-url"
 
 [deployment]
 deploymentTarget = "autoscale"
